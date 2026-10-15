@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UNI Academy — Conectando Dispositivos · Actividad Interactiva</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Exo+2:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
+:root{--amber:#f59e0b;--orange:#f97316;--gold:#ffd93d;--green:#00e676;--red:#ff3d3d;--cyan:#00f5e4;--blue:#3b82f6;--purple:#a855f7;--bg:#060b18;--card:#111820;--text:#e8f4ff;--muted:#6a8aaa;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Exo 2',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;position:relative;}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 20% 40%,rgba(245,158,11,.08) 0%,transparent 55%),radial-gradient(ellipse at 80% 20%,rgba(0,245,228,.06) 0%,transparent 55%),radial-gradient(ellipse at 50% 80%,rgba(168,85,247,.04) 0%,transparent 50%);pointer-events:none;z-index:0;}
+body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(245,158,11,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(245,158,11,.02) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0;}
+.particle{position:fixed;width:3px;height:3px;background:var(--amber);border-radius:50%;opacity:.3;pointer-events:none;animation:floatParticle 15s infinite linear;z-index:1;}
+@keyframes floatParticle{0%{transform:translateY(100vh) translateX(0);opacity:0;}10%{opacity:.4;}90%{opacity:.4;}100%{transform:translateY(-10vh) translateX(50px);opacity:0;}}
+.header{position:relative;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:14px 28px;border-bottom:1px solid rgba(245,158,11,.2);background:rgba(6,11,24,.95);backdrop-filter:blur(14px);}
+.logo-group{display:flex;align-items:center;gap:14px;}
+.logo-badge{width:44px;height:44px;background:linear-gradient(135deg,var(--amber),var(--orange));clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);display:flex;align-items:center;justify-content:center;font-family:'Orbitron',monospace;font-size:10px;font-weight:900;color:#fff;box-shadow:0 0 20px rgba(245,158,11,.4);animation:logoPulse 3s ease-in-out infinite;}
+@keyframes logoPulse{0%,100%{box-shadow:0 0 15px rgba(245,158,11,.3);}50%{box-shadow:0 0 30px rgba(245,158,11,.6);}}
+.logo-text{font-family:'Orbitron',monospace;font-size:15px;font-weight:800;color:var(--amber);letter-spacing:3px;text-shadow:0 0 10px rgba(245,158,11,.3);}
+.logo-sub{font-size:10px;color:var(--muted);letter-spacing:2px;font-family:'Orbitron',monospace;}
+.header-tag{font-family:'Orbitron',monospace;font-size:10px;color:var(--cyan);letter-spacing:2px;border:1px solid var(--cyan);padding:5px 14px;border-radius:2px;background:rgba(0,245,228,.05);text-shadow:0 0 8px rgba(0,245,228,.3);}
+.main-container{position:relative;z-index:5;max-width:960px;margin:0 auto;padding:20px 16px 60px;display:flex;flex-direction:column;align-items:center;gap:14px;}
+.activity-sub{font-family:'Orbitron',monospace;font-size:10px;color:var(--muted);letter-spacing:3px;text-align:center;margin-bottom:4px;}
+.activity-title{font-family:'Orbitron',monospace;font-size:22px;font-weight:800;text-align:center;color:var(--text);letter-spacing:1px;margin-bottom:4px;text-shadow:0 0 20px rgba(0,245,228,.2);}
+.activity-title span{background:linear-gradient(135deg,var(--amber),var(--orange),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.screen-section{width:100%;display:none;animation:fadeInUp .5s ease;}
+.screen-section.active{display:block;}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+
+/* WELCOME */
+.welcome-card{background:var(--card);border:1.5px solid rgba(245,158,11,.25);border-radius:24px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 40px rgba(245,158,11,.08);position:relative;}
+.welcome-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--amber),var(--orange),var(--gold),var(--amber));background-size:200% 100%;animation:shimmer 3s linear infinite;}
+@keyframes shimmer{0%{background-position:0% 50%;}100%{background-position:200% 50%;}}
+.welcome-body{padding:32px 28px 28px;}
+.welcome-robot{width:90px;height:90px;margin:0 auto 16px;animation:robotBounce 2s ease-in-out infinite;}
+@keyframes robotBounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+.welcome-title{font-family:'Orbitron',monospace;font-size:18px;font-weight:700;color:var(--gold);margin-bottom:10px;text-align:center;text-shadow:0 0 15px rgba(255,217,61,.2);}
+.welcome-intro{font-size:14px;line-height:1.7;color:rgba(232,244,255,.85);max-width:600px;margin:0 auto 20px;text-align:center;}
+.welcome-intro strong{color:var(--cyan);}
+.concept-box{background:rgba(0,245,228,.04);border:1px solid rgba(0,245,228,.15);border-radius:14px;padding:18px 20px;margin-bottom:20px;}
+.concept-title{font-family:'Orbitron',monospace;font-size:11px;color:var(--cyan);letter-spacing:2px;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.concept-text{font-size:13.5px;line-height:1.8;color:rgba(232,244,255,.8);}
+.concept-text strong{color:var(--gold);}
+.dialogue-row{display:flex;gap:14px;margin-bottom:14px;align-items:flex-start;}
+.dialogue-avatar{width:38px;height:38px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;}
+.dialogue-avatar.uni{background:linear-gradient(135deg,var(--amber),var(--orange));}
+.dialogue-avatar.elix{background:linear-gradient(135deg,var(--blue),var(--purple));}
+.dialogue-bubble{flex:1;background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.15);border-radius:12px;padding:10px 14px;}
+.dialogue-bubble.elix-bubble{background:rgba(59,130,246,.06);border-color:rgba(59,130,246,.15);}
+.dialogue-name{font-family:'Orbitron',monospace;font-size:8px;letter-spacing:2px;margin-bottom:3px;}
+.dialogue-name.uni-n{color:var(--amber);}
+.dialogue-name.elix-n{color:var(--blue);}
+.dialogue-msg{font-size:13px;line-height:1.5;color:rgba(232,244,255,.85);}
+.device-buttons{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:600px;margin:0 auto;}
+.device-btn{padding:18px 12px;border-radius:16px;border:2px solid rgba(245,158,11,.3);background:linear-gradient(135deg,rgba(245,158,11,.1),rgba(249,115,22,.05));color:var(--text);font-family:'Orbitron',monospace;font-size:12px;font-weight:700;letter-spacing:1px;cursor:pointer;transition:all .3s;display:flex;flex-direction:column;align-items:center;gap:8px;position:relative;overflow:hidden;}
+.device-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent,rgba(245,158,11,.1),transparent);transform:translateX(-100%);transition:transform .5s;}
+.device-btn:hover::before{transform:translateX(100%);}
+.device-btn:hover{border-color:var(--amber);transform:translateY(-3px);box-shadow:0 8px 30px rgba(245,158,11,.25);}
+.device-btn .dev-icon{font-size:32px;}
+.device-btn .dev-label{color:var(--gold);font-size:11px;}
+.device-btn .dev-desc{font-family:'Exo 2',sans-serif;font-size:10px;font-weight:400;color:var(--muted);letter-spacing:0;text-align:center;line-height:1.3;}
+
+/* GAME SCREEN */
+.game-wrap{display:flex;flex-direction:column;align-items:center;gap:12px;width:100%;}
+.uni-bar{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid rgba(245,158,11,.22);border-radius:16px;padding:12px 16px;width:100%;max-width:700px;position:relative;overflow:hidden;}
+.uni-bar::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--amber),var(--orange),var(--gold));}
+.uni-avatar{width:44px;height:44px;flex-shrink:0;animation:robotBounce 2.5s ease-in-out infinite;}
+.uni-speech{background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.18);border-radius:12px;padding:10px 14px;flex:1;position:relative;}
+.uni-speech::before{content:'';position:absolute;left:-8px;top:50%;transform:translateY(-50%);border:4px solid transparent;border-right-color:rgba(245,158,11,.18);}
+.uni-name{font-family:'Orbitron',monospace;font-size:9px;color:var(--amber);letter-spacing:2px;margin-bottom:3px;}
+.uni-msg{font-size:14px;line-height:1.5;color:rgba(232,244,255,.9);}
+.uni-msg strong{color:var(--gold);}
+.uni-msg .action{color:var(--cyan);font-weight:600;}
+.progress-gamer{width:100%;max-width:700px;display:flex;align-items:center;gap:12px;}
+.progress-track{flex:1;height:10px;background:rgba(255,255,255,.06);border-radius:5px;overflow:hidden;border:1px solid rgba(255,255,255,.08);}
+.progress-fill{height:100%;border-radius:5px;background:linear-gradient(90deg,var(--amber),var(--orange),var(--gold));transition:width .6s cubic-bezier(.34,1.56,.64,1);box-shadow:0 0 12px rgba(245,158,11,.3);position:relative;}
+.progress-fill::after{content:'';position:absolute;right:0;top:0;bottom:0;width:20px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.4));animation:progressShine 1.5s infinite;}
+@keyframes progressShine{0%{opacity:0;}50%{opacity:1;}100%{opacity:0;}}
+.progress-text{font-family:'Orbitron',monospace;font-size:10px;color:var(--amber);letter-spacing:1px;white-space:nowrap;}
+.instruction-gamer{background:var(--card);border:1px solid rgba(0,245,228,.2);border-radius:14px;padding:14px 20px;max-width:700px;width:100%;text-align:center;font-size:15px;line-height:1.6;color:var(--text);position:relative;overflow:hidden;}
+.instruction-gamer::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(180deg,var(--cyan),var(--amber));}
+.instruction-gamer strong{color:var(--cyan);}
+.instruction-gamer .highlight-text{color:var(--gold);font-weight:700;text-shadow:0 0 8px rgba(255,217,61,.2);}
+
+/* COMPUTER SCREEN */
+.pc-frame{width:100%;max-width:760px;height:520px;background:#1a1a2e;border-radius:16px;border:2px solid rgba(245,158,11,.2);position:relative;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.6),0 0 40px rgba(0,168,132,.06);}
+.pc-topbar{height:36px;background:linear-gradient(90deg,#1f2937,#111827);display:flex;align-items:center;justify-content:space-between;padding:0 14px;border-bottom:1px solid rgba(255,255,255,.06);}
+.pc-dots{display:flex;gap:6px;}
+.pc-dot{width:10px;height:10px;border-radius:50%;}
+.pc-dot.r{background:#ff5f56;}.pc-dot.y{background:#ffbd2e;}.pc-dot.g{background:#27c93f;}
+.pc-title{color:var(--muted);font-size:11px;font-family:'Orbitron',monospace;letter-spacing:1px;}
+.pc-screen{width:100%;height:calc(100% - 36px);position:relative;overflow:hidden;background:linear-gradient(135deg,#0f172a 0%,#1e293b 100%);}
+
+/* WINDOWS DESKTOP */
+.win-desktop{width:100%;height:100%;padding:16px;display:grid;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(4,1fr);gap:16px;position:relative;}
+.win-icon{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;padding:8px;border-radius:8px;transition:all .2s;}
+.win-icon:hover{background:rgba(255,255,255,.08);}
+.win-icon .w-icon{font-size:36px;}
+.win-icon .w-label{font-size:11px;color:rgba(232,244,255,.8);text-align:center;text-shadow:0 1px 3px rgba(0,0,0,.5);}
+.win-taskbar{position:absolute;bottom:0;left:0;right:0;height:44px;background:rgba(15,23,42,.92);backdrop-filter:blur(10px);border-top:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;gap:8px;padding:0 12px;z-index:20;}
+.win-task-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;transition:all .2s;}
+.win-task-icon:hover{background:rgba(255,255,255,.1);transform:translateY(-2px);}
+.win-task-icon.active{background:rgba(59,130,246,.2);border:1px solid rgba(59,130,246,.4);}
+.win-start{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;transition:all .2s;margin-right:auto;}
+.win-start:hover{background:rgba(255,255,255,.1);}
+.win-tray{display:flex;align-items:center;gap:8px;margin-left:auto;color:rgba(232,244,255,.6);font-size:11px;}
+
+/* FILE EXPLORER */
+.explorer{width:100%;height:100%;background:#0f172a;display:flex;flex-direction:column;}
+.explorer-header{height:40px;background:#1e293b;display:flex;align-items:center;gap:8px;padding:0 12px;border-bottom:1px solid rgba(255,255,255,.06);}
+.explorer-header span{font-size:12px;color:var(--muted);}
+.explorer-path{flex:1;background:#0f172a;border-radius:4px;padding:4px 10px;font-size:12px;color:rgba(232,244,255,.7);}
+.explorer-body{display:flex;flex:1;}
+.explorer-sidebar{width:180px;background:#1e293b;border-right:1px solid rgba(255,255,255,.06);padding:10px;display:flex;flex-direction:column;gap:4px;}
+.explorer-sidebar .side-item{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:6px;cursor:pointer;font-size:12px;color:rgba(232,244,255,.8);transition:all .15s;}
+.explorer-sidebar .side-item:hover{background:rgba(255,255,255,.06);}
+.explorer-sidebar .side-item.active{background:rgba(59,130,246,.15);color:#60a5fa;}
+.explorer-sidebar .side-item .s-icon{font-size:14px;}
+.explorer-main{flex:1;padding:12px;display:flex;flex-direction:column;gap:8px;overflow-y:auto;}
+.file-item{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:6px;cursor:pointer;transition:all .15s;font-size:13px;color:rgba(232,244,255,.85);}
+.file-item:hover{background:rgba(255,255,255,.06);}
+.file-item.selected{background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.3);}
+.file-item .f-icon{font-size:20px;}
+.file-item .f-name{flex:1;}
+.file-item .f-size{color:var(--muted);font-size:11px;}
+
+/* PHONE CONNECT SCREEN */
+.phone-connect{width:100%;height:100%;display:flex;align-items:center;justify-content:center;gap:60px;background:linear-gradient(135deg,#0f172a 0%,#1e293b 100%);position:relative;}
+.device-illustration{display:flex;flex-direction:column;align-items:center;gap:12px;}
+.device-body{width:80px;height:140px;background:linear-gradient(135deg,#334155,#1e293b);border-radius:12px;border:2px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;position:relative;box-shadow:0 8px 30px rgba(0,0,0,.4);}
+.device-body.usb{width:50px;height:90px;border-radius:8px;}
+.device-body.hdd{width:100px;height:70px;border-radius:10px;}
+.device-body.phone{width:70px;height:130px;border-radius:14px;border:3px solid rgba(255,255,255,.2);}
+.device-body.phone::after{content:'';position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:20px;height:20px;border-radius:50%;border:2px solid rgba(255,255,255,.2);}
+.device-label{font-size:12px;color:var(--muted);font-family:'Orbitron',monospace;letter-spacing:1px;}
+.cable-line{width:80px;height:3px;background:linear-gradient(90deg,var(--amber),var(--orange));position:relative;animation:cablePulse 1.5s infinite;}
+.cable-line::before{content:'🔌';position:absolute;left:-16px;top:-10px;font-size:18px;}
+.cable-line::after{content:'🔌';position:absolute;right:-16px;top:-10px;font-size:18px;transform:scaleX(-1);}
+@keyframes cablePulse{0%,100%{opacity:1;}50%{opacity:.5;}}
+.pc-illustration{width:160px;height:110px;background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:8px;border:2px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;position:relative;box-shadow:0 8px 30px rgba(0,0,0,.4);}
+.pc-illustration::after{content:'';position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);width:60px;height:8px;background:rgba(255,255,255,.1);border-radius:4px;}
+.pc-illustration .pc-screen-inner{width:140px;height:80px;background:#0ea5e9;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:28px;}
+.pc-label{font-size:11px;color:var(--muted);margin-top:24px;font-family:'Orbitron',monospace;letter-spacing:1px;}
+.usb-port{width:40px;height:14px;background:#334155;border:2px solid rgba(255,255,255,.2);border-radius:4px;position:absolute;right:-22px;top:50%;transform:translateY(-50%);display:flex;align-items:center;justify-content:center;}
+.usb-port::after{content:'';width:20px;height:4px;background:rgba(255,255,255,.3);border-radius:2px;}
+
+/* PHONE SCREEN OVERLAY */
+.phone-overlay{position:absolute;inset:0;background:rgba(0,0,0,.7);z-index:50;display:flex;align-items:center;justify-content:center;}
+.phone-screen-sim{width:220px;height:380px;background:#0f172a;border-radius:24px;border:4px solid #334155;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.8);display:flex;flex-direction:column;}
+.phone-notch-sim{width:80px;height:20px;background:#1e293b;border-radius:0 0 12px 12px;margin:0 auto;}
+.phone-content-sim{flex:1;padding:16px;display:flex;flex-direction:column;align-items:center;gap:16px;}
+.phone-content-sim .notif-title{font-size:13px;color:var(--text);text-align:center;margin-top:8px;}
+.phone-content-sim .notif-body{font-size:11px;color:var(--muted);text-align:center;line-height:1.5;}
+.phone-btn-sim{width:100%;padding:12px;border-radius:10px;border:none;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;font-family:'Exo 2',sans-serif;}
+.phone-btn-sim.transfer{background:linear-gradient(135deg,var(--green),#059669);color:#fff;}
+.phone-btn-sim.charge{background:rgba(255,255,255,.1);color:rgba(232,244,255,.7);}
+.phone-btn-sim:hover{transform:scale(1.03);}
+
+/* HIGHLIGHTS */
+.hl-pulse{animation:hlPulse 1.5s ease-in-out infinite;border-radius:8px;}
+@keyframes hlPulse{0%,100%{box-shadow:0 0 0 0 rgba(245,158,11,.6);}50%{box-shadow:0 0 0 10px rgba(245,158,11,0);}}
+.hl-pulse-green{animation:hlPulseGreen 1.5s ease-in-out infinite;border-radius:8px;}
+@keyframes hlPulseGreen{0%,100%{box-shadow:0 0 0 0 rgba(0,230,118,.6);}50%{box-shadow:0 0 0 10px rgba(0,230,118,0);}}
+.hl-pulse-red{animation:hlPulseRed 1.5s ease-in-out infinite;border-radius:50%;}
+@keyframes hlPulseRed{0%,100%{box-shadow:0 0 0 0 rgba(234,0,56,.6);}50%{box-shadow:0 0 0 10px rgba(234,0,56,0);}}
+
+/* VICTORY */
+.victory-overlay{position:fixed;inset:0;background:rgba(6,11,24,.92);backdrop-filter:blur(10px);z-index:1000;display:none;align-items:center;justify-content:center;flex-direction:column;gap:20px;padding:20px;}
+.victory-overlay.active{display:flex;animation:victoryIn .6s ease;}
+@keyframes victoryIn{from{opacity:0;transform:scale(.9);}to{opacity:1;transform:scale(1);}}
+.victory-card{background:var(--card);border:2px solid rgba(0,230,118,.3);border-radius:24px;padding:40px 32px;text-align:center;max-width:480px;width:100%;position:relative;overflow:hidden;box-shadow:0 0 60px rgba(0,230,118,.15);}
+.victory-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--green),var(--cyan),var(--green));background-size:200% 100%;animation:shimmer 2s linear infinite;}
+.victory-stars{font-size:52px;letter-spacing:10px;margin-bottom:8px;animation:starBurst .6s cubic-bezier(.34,1.56,.64,1) both;}
+@keyframes starBurst{from{transform:scale(0);opacity:0;}to{transform:scale(1);opacity:1;}}
+.victory-title{font-family:'Orbitron',monospace;font-size:24px;font-weight:900;background:linear-gradient(135deg,var(--green),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px;}
+.victory-sub{font-family:'Orbitron',monospace;font-size:10px;color:var(--muted);letter-spacing:3px;margin-bottom:16px;}
+.victory-msg{font-size:15px;line-height:1.7;color:rgba(232,244,255,.85);margin-bottom:24px;}
+.victory-msg strong{color:var(--gold);}
+.victory-btn{padding:14px 24px;border-radius:14px;border:2px solid;font-family:'Orbitron',monospace;font-size:12px;font-weight:700;letter-spacing:2px;cursor:pointer;transition:all .3s;display:flex;align-items:center;justify-content:center;gap:8px;margin:0 auto;}
+.victory-btn:hover{transform:translateY(-2px);}
+.victory-btn.primary{background:linear-gradient(135deg,var(--amber),var(--orange));border-color:transparent;color:#fff;box-shadow:0 4px 20px rgba(245,158,11,.3);}
+
+/* CONFETI */
+.confetti{position:fixed;width:10px;height:10px;pointer-events:none;z-index:1001;animation:confettiFall linear forwards;}
+@keyframes confettiFall{0%{transform:translateY(-10vh) rotate(0deg) scale(1);opacity:1;}100%{transform:translateY(110vh) rotate(720deg) scale(.5);opacity:0;}}
+
+/* TOAST */
+.game-toast{position:fixed;top:80px;left:50%;transform:translateX(-50%) translateY(-20px);background:rgba(255,61,61,.15);border:1px solid rgba(255,61,61,.4);color:#ff6b6b;padding:10px 20px;border-radius:10px;font-size:13px;z-index:200;opacity:0;transition:all .3s;pointer-events:none;font-weight:600;}
+.game-toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* EJECT NOTIFICATION */
+.eject-notif{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);background:rgba(0,230,118,.15);border:1px solid rgba(0,230,118,.4);border-radius:12px;padding:16px 24px;color:var(--green);font-size:14px;font-weight:600;z-index:60;animation:ejectPop .4s cubic-bezier(.34,1.56,.64,1) forwards;text-align:center;}
+@keyframes ejectPop{from{transform:translate(-50%,-50%) scale(0);opacity:0;}to{transform:translate(-50%,-50%) scale(1);opacity:1;}}
+
+@media(max-width:760px){.pc-frame{height:440px;}.device-buttons{grid-template-columns:1fr;}.win-desktop{grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(5,1fr);}.explorer-sidebar{width:140px;}.phone-connect{gap:20px;flex-direction:column;padding:20px;}.cable-line{width:40px;}}
+@media(max-width:640px){.header{padding:10px 14px;}.main-container{padding:10px 8px 40px;}.activity-title{font-size:16px;}.welcome-body{padding:20px 14px;}.device-buttons{grid-template-columns:1fr;}.pc-frame{height:380px;}.win-desktop{grid-template-columns:repeat(3,1fr);}.explorer-sidebar{display:none;}.explorer-path{font-size:10px;}}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo-group">
+    <div class="logo-badge">UNi</div>
+    <div>
+      <div class="logo-text">UNI ACADEMY</div>
+      <div class="logo-sub">MI PRIMER CURSO DE COMPUTACIÓN</div>
+    </div>
+  </div>
+  <div class="header-tag">MÓDULO 3 · ACTIVIDAD INTERACTIVA</div>
+</header>
+
+<div class="main-container">
+  <div class="activity-sub">// SIMULACIÓN INTERACTIVA //</div>
+  <h1 class="activity-title"><span>CONECTANDO DISPOSITIVOS</span> — PASANDO INFORMACIÓN</h1>
+
+  <!-- PANTALLA BIENVENIDA -->
+  <div class="screen-section active" id="screen-welcome">
+    <div class="welcome-card">
+      <div class="welcome-body">
+        <svg class="welcome-robot" viewBox="0 0 80 90" fill="none">
+          <ellipse cx="40" cy="75" rx="22" ry="6" fill="rgba(245,158,11,.13)"/>
+          <rect x="27" y="68" width="10" height="14" rx="4" fill="#2a1a0a"/>
+          <rect x="43" y="68" width="10" height="14" rx="4" fill="#2a1a0a"/>
+          <rect x="25" y="78" width="14" height="6" rx="3" fill="#3d2510"/>
+          <rect x="41" y="78" width="14" height="6" rx="3" fill="#3d2510"/>
+          <rect x="20" y="42" width="40" height="30" rx="10" fill="#2a1e0f"/>
+          <rect x="20" y="42" width="40" height="30" rx="10" stroke="#f59e0b" stroke-width="1.5" stroke-opacity=".5"/>
+          <circle cx="40" cy="57" r="5" fill="#f59e0b"/>
+          <circle cx="40" cy="57" r="3" fill="#fff" fill-opacity=".5"/>
+          <rect x="8" y="44" width="13" height="8" rx="4" fill="#2a1a0a"/>
+          <rect x="59" y="44" width="13" height="8" rx="4" fill="#2a1a0a"/>
+          <circle cx="10" cy="56" r="5" fill="#3d2510"/>
+          <circle cx="70" cy="56" r="5" fill="#3d2510"/>
+          <rect x="33" y="35" width="14" height="9" rx="4" fill="#2a1a0a"/>
+          <rect x="15" y="10" width="50" height="30" rx="14" fill="#2a1e0f"/>
+          <rect x="15" y="10" width="50" height="30" rx="14" stroke="#f59e0b" stroke-width="1.5" stroke-opacity=".55"/>
+          <rect x="20" y="16" width="40" height="18" rx="8" fill="#060b18"/>
+          <circle cx="32" cy="25" r="5" fill="#f59e0b"/>
+          <circle cx="32" cy="25" r="3" fill="#fff" fill-opacity=".5"/>
+          <circle cx="48" cy="25" r="5" fill="#f97316"/>
+          <circle cx="48" cy="25" r="3" fill="#fff" fill-opacity=".6"/>
+          <rect x="38" y="3" width="4" height="9" rx="2" fill="#3d2510"/>
+          <circle cx="40" cy="3" r="3" fill="#f59e0b"/>
+          <rect x="10" y="18" width="6" height="14" rx="3" fill="#3d2510"/>
+          <rect x="64" y="18" width="6" height="14" rx="3" fill="#3d2510"/>
+        </svg>
+        <div class="welcome-title">¡BIENVENIDO, EXPLORADOR DIGITAL!</div>
+        <div class="welcome-intro">
+          ¿Alguna vez tomaste fotos increíbles con tu celular o guardaste documentos en una memoria, pero no sabías cómo pasarlos a tu computadora? 
+          <strong>¡Hoy descubrirás que es tan sencillo como tender un puente!</strong>
+        </div>
+
+        <div class="concept-box">
+          <div class="concept-title">🌉 LOS PUENTES DE LA COMPUTADORA</div>
+          <div class="concept-text">
+            Imagina que tu computadora es una <strong>gran casa</strong> y los dispositivos externos (teléfono, memoria USB, disco duro) son <strong>visitantes</strong> que traen regalos: fotos, música y documentos.<br><br>
+            Para que se saluden y compartan, necesitan un puente: los <strong>puertos USB</strong>. El cable es el camino. Al conectar un extremo al dispositivo y el otro a la computadora, ¡ambos se reconocen de inmediato!
+          </div>
+        </div>
+
+        <div style="margin-bottom:18px;">
+          <div class="dialogue-row">
+            <div class="dialogue-avatar uni">U</div>
+            <div class="dialogue-bubble">
+              <div class="dialogue-name uni-n">UNI · GUÍA DIGITAL</div>
+              <div class="dialogue-msg">"¡Hola! No te preocupes por los cables. Al conectar tu teléfono o memoria a la computadora, verás que es muy fácil acceder a tus recuerdos. Solo recuerda aceptar la opción de <strong>transferir archivos</strong> en la pantalla de tu celular."</div>
+            </div>
+          </div>
+          <div class="dialogue-row">
+            <div class="dialogue-avatar elix">E</div>
+            <div class="dialogue-bubble elix-bubble">
+              <div class="dialogue-name elix-n">ELIX · TUTOR IA</div>
+              <div class="dialogue-msg">"Y si en algún momento dudas sobre qué carpeta elegir o a dónde arrastrar tus fotos, recuerda que estoy disponible las 24 horas para guiarte sin prisa. <strong>¡Vamos paso a paso!</strong>"</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="device-buttons">
+          <button class="device-btn" onclick="startMode('usb')">
+            <span class="dev-icon">💾</span>
+            <span class="dev-label">MEMORIA USB</span>
+            <span class="dev-desc">Conecta, copia archivos y expulsa con seguridad</span>
+          </button>
+          <button class="device-btn" onclick="startMode('hdd')">
+            <span class="dev-icon">🖴</span>
+            <span class="dev-label">DISCO DURO</span>
+            <span class="dev-desc">Transfiere grandes cantidades de información</span>
+          </button>
+          <button class="device-btn" onclick="startMode('phone')">
+            <span class="dev-icon">📱</span>
+            <span class="dev-label">CELULAR</span>
+            <span class="dev-desc">Pasa fotos y videos a tu computadora</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANTALLA JUEGO -->
+  <div class="screen-section" id="screen-game">
+    <div class="game-wrap">
+      <div class="uni-bar">
+        <svg class="uni-avatar" viewBox="0 0 80 90" fill="none">
+          <ellipse cx="40" cy="75" rx="22" ry="6" fill="rgba(245,158,11,.13)"/>
+          <rect x="27" y="68" width="10" height="14" rx="4" fill="#2a1a0a"/>
+          <rect x="43" y="68" width="10" height="14" rx="4" fill="#2a1a0a"/>
+          <rect x="25" y="78" width="14" height="6" rx="3" fill="#3d2510"/>
+          <rect x="41" y="78" width="14" height="6" rx="3" fill="#3d2510"/>
+          <rect x="20" y="42" width="40" height="30" rx="10" fill="#2a1e0f"/>
+          <rect x="20" y="42" width="40" height="30" rx="10" stroke="#f59e0b" stroke-width="1.5" stroke-opacity=".5"/>
+          <circle cx="40" cy="57" r="5" fill="#f59e0b"/>
+          <circle cx="40" cy="57" r="3" fill="#fff" fill-opacity=".5"/>
+          <rect x="8" y="44" width="13" height="8" rx="4" fill="#2a1a0a"/>
+          <rect x="59" y="44" width="13" height="8" rx="4" fill="#2a1a0a"/>
+          <circle cx="10" cy="56" r="5" fill="#3d2510"/>
+          <circle cx="70" cy="56" r="5" fill="#3d2510"/>
+          <rect x="33" y="35" width="14" height="9" rx="4" fill="#2a1a0a"/>
+          <rect x="15" y="10" width="50" height="30" rx="14" fill="#2a1e0f"/>
+          <rect x="15" y="10" width="50" height="30" rx="14" stroke="#f59e0b" stroke-width="1.5" stroke-opacity=".55"/>
+          <rect x="20" y="16" width="40" height="18" rx="8" fill="#060b18"/>
+          <circle cx="32" cy="25" r="5" fill="#f59e0b"/>
+          <circle cx="32" cy="25" r="3" fill="#fff" fill-opacity=".5"/>
+          <circle cx="48" cy="25" r="5" fill="#f97316"/>
+          <circle cx="48" cy="25" r="3" fill="#fff" fill-opacity=".6"/>
+          <rect x="38" y="3" width="4" height="9" rx="2" fill="#3d2510"/>
+          <circle cx="40" cy="3" r="3" fill="#f59e0b"/>
+          <rect x="10" y="18" width="6" height="14" rx="3" fill="#3d2510"/>
+          <rect x="64" y="18" width="6" height="14" rx="3" fill="#3d2510"/>
+        </svg>
+        <div class="uni-speech">
+          <div class="uni-name">// UNI · GUÍA DIGITAL</div>
+          <div class="uni-msg" id="uniMsg">¡Misión activada! Sigue las instrucciones y toca los elementos que parpadean.</div>
+        </div>
+      </div>
+      <div class="progress-gamer">
+        <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+        <div class="progress-text" id="progressText">0%</div>
+      </div>
+      <div class="instruction-gamer" id="instructionBox">
+        <strong>MISIÓN 1:</strong> Toca el <span class="highlight-text">dispositivo</span> para conectarlo a la computadora.
+      </div>
+      <div class="pc-frame">
+        <div class="pc-topbar">
+          <div class="pc-dots"><div class="pc-dot r"></div><div class="pc-dot y"></div><div class="pc-dot g"></div></div>
+          <div class="pc-title" id="pcTitle">EXPLORADOR DE ARCHIVOS</div>
+          <div style="width:40px;"></div>
+        </div>
+        <div class="pc-screen" id="pcScreen"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="game-toast" id="gameToast"></div>
+
+<div class="victory-overlay" id="victoryOverlay">
+  <div class="victory-card">
+    <div class="victory-stars">⭐⭐⭐</div>
+    <div class="victory-title">¡MISIÓN COMPLETADA!</div>
+    <div class="victory-sub">EXPLORADOR DIGITAL · NIVEL SUPERADO</div>
+    <div class="victory-msg" id="victoryMsg">¡Felicidades! Has completado la simulación.</div>
+    <button class="victory-btn primary" onclick="restartActivity()">🔄 VOLVER AL MENÚ PRINCIPAL</button>
+  </div>
+</div>
+
+<script>
+// ===================== PARTICULAS =====================
+function createParticles(){
+  for(let i=0;i<20;i++){
+    const p=document.createElement('div');p.className='particle';
+    p.style.left=Math.random()*100+'vw';p.style.animationDelay=Math.random()*15+'s';
+    p.style.animationDuration=(10+Math.random()*10)+'s';
+    const colors=['#f59e0b','#f97316','#00f5e4','#a855f7','#ffd93d'];
+    p.style.background=colors[Math.floor(Math.random()*colors.length)];
+    document.body.appendChild(p);
+  }
+}
+createParticles();
+
+// ===================== DATOS =====================
+let currentMode='';
+let currentStep=0;
+let selectedFiles=[];
+
+const stepsUSB=[
+  {uni:'🎯 <strong>Misión 1:</strong> Toma la memoria USB e introdúcela suavemente en el puerto USB de la computadora. Toca el USB para conectarlo.',text:'<strong>MISIÓN 1:</strong> Toca la <span class="highlight-text">memoria USB</span> para conectarla a la computadora.',render:renderConnectUSB},
+  {uni:'✅ ¡USB conectado! Ahora abre el <strong>Explorador de Archivos</strong> (la carpeta amarilla) para ver su contenido.',text:'<strong>MISIÓN 2:</strong> Toca el <span class="highlight-text">Explorador de Archivos</span> (carpeta 📁) para abrirlo.',render:renderDesktopUSB},
+  {uni:'📂 ¡Explorador abierto! En la barra lateral verás tu <strong>memoria USB</strong>. Tócala para ver qué archivos trae.',text:'<strong>MISIÓN 3:</strong> Toca <span class="highlight-text">"Memoria USB (E:)"</span> en la barra lateral para ver sus archivos.',render:renderExplorerUSB},
+  {uni:'📄 ¡Aquí están los archivos! Selecciona los que quieres copiar y luego toca <strong>"Copiar a Documentos"</strong>.',text:'<strong>MISIÓN 4:</strong> Selecciona los <span class="highlight-text">archivos</span> y luego toca el botón para copiarlos a Documentos.',render:renderFilesUSB},
+  {uni:'🔒 ¡Archivos copiados! Ahora <strong>expulsa el USB de forma segura</strong> para no dañar los archivos. Toca el icono de expulsar.',text:'<strong>MISIÓN 5:</strong> Toca el <span class="highlight-text">icono de expulsar ⏏️</span> para retirar el USB con seguridad.',render:renderEjectUSB}
+];
+
+const stepsHDD=[
+  {uni:'🎯 <strong>Misión 1:</strong> Conecta el cable del disco duro portátil a un puerto USB de la computadora. Toca el disco duro para conectarlo.',text:'<strong>MISIÓN 1:</strong> Toca el <span class="highlight-text">disco duro</span> para conectarlo a la computadora.',render:renderConnectHDD},
+  {uni:'✅ ¡Disco duro conectado! Abre el <strong>Explorador de Archivos</strong> para navegar por sus carpetas.',text:'<strong>MISIÓN 2:</strong> Toca el <strong>Explorador de Archivos</strong> (carpeta 📁) para abrirlo.',render:renderDesktopHDD},
+  {uni:'📂 Encontrarás el disco duro en la barra lateral. Tócalo para ver todo lo que almacena.',text:'<strong>MISIÓN 3:</strong> Toca <span class="highlight-text">"Disco Duro Externo (F:)"</span> en la barra lateral.',render:renderExplorerHDD},
+  {uni:'📄 Selecciona las carpetas o archivos que necesitas y cópialos a tu computadora.',text:'<strong>MISIÓN 4:</strong> Selecciona los <span class="highlight-text">archivos</span> y toca el botón para copiarlos.',render:renderFilesHDD},
+  {uni:'🔒 ¡Listo! Ahora expulsa el disco duro de forma segura antes de desconectar el cable.',text:'<strong>MISIÓN 5:</strong> Toca el <span class="highlight-text">icono de expulsar ⏏️</span> para retirar el disco duro con seguridad.',render:renderEjectHDD}
+];
+
+const stepsPhone=[
+  {uni:'🎯 <strong>Misión 1:</strong> Conecta tu celular a la computadora usando el cable USB. Toca el celular para conectarlo.',text:'<strong>MISIÓN 1:</strong> Toca el <span class="highlight-text">celular</span> para conectarlo con el cable a la computadora.',render:renderConnectPhone},
+  {uni:'📱 ¡El celular muestra una notificación! Debes seleccionar <strong>"Transferir archivos"</strong> para que la PC pueda ver tus fotos.',text:'<strong>MISIÓN 2:</strong> En la pantalla del celular, toca <span class="highlight-text">"Transferir archivos"</span>.',render:renderPhoneTransfer},
+  {uni:'✅ ¡Conexión establecida! Ahora abre el <strong>Explorador de Archivos</strong> en la computadora.',text:'<strong>MISIÓN 3:</strong> Toca el <strong>Explorador de Archivos</strong> (carpeta 📁) en la PC para abrirlo.',render:renderDesktopPhone},
+  {uni:'📂 Tu celular aparece como un dispositivo en la barra lateral. Tócalo para ver tus fotos y videos.',text:'<strong>MISIÓN 4:</strong> Toca <span class="highlight-text">"Mi Celular (G:)"</span> en la barra lateral.',render:renderExplorerPhone},
+  {uni:'📸 ¡Aquí están tus fotos! Selecciona las que quieres pasar a la computadora.',text:'<strong>MISIÓN 5:</strong> Selecciona las <span class="highlight-text">fotos</span> que quieres copiar a la computadora.',render:renderFilesPhone},
+  {uni:'🔒 ¡Fotos copiadas! Ahora <strong>expulsa el celular de forma segura</strong> antes de desconectar el cable.',text:'<strong>MISIÓN 6:</strong> Toca el <span class="highlight-text">icono de expulsar ⏏️</span> para desconectar el celular con seguridad.',render:renderEjectPhone}
+];
+
+// ===================== UTILIDADES =====================
+function showScreen(id){
+  document.querySelectorAll('.screen-section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function startMode(mode){
+  currentMode=mode;currentStep=0;selectedFiles=[];
+  showScreen('screen-game');
+  renderCurrentStep();
+}
+
+function getSteps(){
+  if(currentMode==='usb')return stepsUSB;
+  if(currentMode==='hdd')return stepsHDD;
+  return stepsPhone;
+}
+
+function getTotalSteps(){return getSteps().length;}
+
+function updateProgress(){
+  const total=getTotalSteps();
+  const pct=Math.round((currentStep/total)*100);
+  document.getElementById('progressFill').style.width=pct+'%';
+  document.getElementById('progressText').textContent=pct+'%';
+}
+
+function updateInstruction(){
+  const steps=getSteps();
+  const box=document.getElementById('instructionBox');
+  const uni=document.getElementById('uniMsg');
+  if(currentStep<steps.length){
+    box.innerHTML=steps[currentStep].text;
+    uni.innerHTML=steps[currentStep].uni;
+    box.classList.remove('fadeInUp');void box.offsetWidth;box.classList.add('fadeInUp');
+  }
+  updateProgress();
+}
+
+function nextStep(){
+  currentStep++;
+  if(currentStep>=getTotalSteps()){showVictory();return;}
+  renderCurrentStep();
+}
+
+function renderCurrentStep(){
+  if(currentStep>=getTotalSteps()){showVictory();return;}
+  updateInstruction();
+  getSteps()[currentStep].render();
+}
+
+function applyHighlight(id,cls='hl-pulse'){
+  document.querySelectorAll('.hl-pulse,.hl-pulse-green,.hl-pulse-red').forEach(el=>{
+    el.classList.remove('hl-pulse','hl-pulse-green','hl-pulse-red');
+  });
+  if(!id)return;
+  const el=document.getElementById(id);
+  if(el)el.classList.add(cls);
+}
+
+function showToast(msg){
+  const t=document.getElementById('gameToast');
+  t.textContent='❌ '+msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),1800);
+}
+
+// ===================== CONFETI =====================
+function spawnConfetti(count=80){
+  const colors=['#f59e0b','#f97316','#ffd93d','#00e676','#00f5e4','#a855f7','#ff3d3d','#3b82f6'];
+  for(let i=0;i<count;i++){
+    setTimeout(()=>{
+      const c=document.createElement('div');c.className='confetti';
+      c.style.left=(5+Math.random()*90)+'vw';
+      c.style.background=colors[Math.floor(Math.random()*colors.length)];
+      c.style.width=(6+Math.random()*10)+'px';c.style.height=(6+Math.random()*10)+'px';
+      c.style.borderRadius=Math.random()>.5?'50%':'2px';
+      c.style.animationDuration=(2+Math.random()*2.5)+'s';
+      document.body.appendChild(c);setTimeout(()=>c.remove(),4500);
+    },i*25);
+  }
+}
+
+// ===================== VICTORIA =====================
+function showVictory(){
+  const overlay=document.getElementById('victoryOverlay');
+  const msg=document.getElementById('victoryMsg');
+  const titles={usb:'¡Has dominado la memoria USB! 💾',hdd:'¡Has dominado el disco duro! 🖴',phone:'¡Has dominado la transferencia desde celular! 📱'};
+  const descs={
+    usb:'Ahora sabes cómo <strong>conectar una memoria USB</strong>, copiar archivos y expulsarla de forma segura. ¡Tus documentos siempre estarán protegidos!',
+    hdd:'Ahora sabes cómo <strong>conectar un disco duro externo</strong> y transferir grandes cantidades de información. ¡Eres un experto en almacenamiento!',
+    phone:'Ahora sabes cómo <strong>pasar fotos y videos de tu celular</strong> a la computadora. ¡Nunca más perderás tus recuerdos!'
+  };
+  msg.innerHTML=descs[currentMode];
+  overlay.classList.add('active');
+  setTimeout(spawnConfetti,300);
+}
+
+function restartActivity(){
+  document.getElementById('victoryOverlay').classList.remove('active');
+  currentMode='';currentStep=0;selectedFiles=[];
+  showScreen('screen-welcome');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ===================== RENDERERS USB =====================
+function renderConnectUSB(){
+  const s=document.getElementById('pcScreen');
+  document.getElementById('pcTitle').textContent='CONECTAR DISPOSITIVO';
+  s.innerHTML=`<div class="phone-connect"><div class="device-illustration"><div class="device-body usb" id="dev-usb" onclick="nextStep()">💾</div><div class="device-label">MEMORIA USB</div></div><div class="cable-line"></div><div class="pc-illustration"><div class="pc-screen-inner">🖥️</div><div class="usb-port"></div></div><div class="pc-label">COMPUTADORA</div></div>`;
+  setTimeout(()=>applyHighlight('dev-usb','hl-pulse'),100);
+}
+
+function renderDesktopUSB(){
+  const s=document.getElementById('pcScreen');
+  document.getElementById('pcTitle').textContent='ESCRITORIO WINDOWS';
+  s.innerHTML=`<div class="win-desktop"><div class="win-icon" onclick="showToast('Abre el Explorador de Archivos')">🗑️<span class="w-label">Papelera</span></div><div class="win-icon" onclick="showToast('Abre el Explorador de Archivos')">🌐<span class="w-label">Edge</span></div><div class="win-icon" onclick="showToast('Abre el Explorador de Archivos')">✉️<span class="w-label">Correo</span></div><div class="win-icon" id="exp-icon" onclick="nextStep()">📁<span class="w-label">Explorador</span></div><div class="win-icon" onclick="showToast('Abre el Explorador de Archivos')">🎵<span class="w-label">Música</span></div><div class="win-icon" onclick="showToast('Abre el Explorador de Archivos')">🎮<span class="w-label">Juegos</span></div></div><div class="win-taskbar"><div class="win-start">🪟</div><div class="win-task-icon" onclick="showToast('Abre el Explorador de Archivos')">🔍</div><div class="win-task-icon active" id="task-exp" onclick="nextStep()">📁</div><div class="win-task-icon" onclick="showToast('Abre el Explorador de Archivos')">🌐</div><div class="win-tray">📶 🔊 🔋 <span id="taskTime">10:30</span></div></div>`;
+  updateTaskTime();
+  setTimeout(()=>applyHighlight('exp-icon','hl-pulse'),100);
+}
+
+function renderExplorerUSB(){
+  const s=document.getElementById('pcScreen');
+  document.getElementById('pcTitle').textContent='EXPLORADOR DE ARCHIVOS';
+  s.innerHTML=`<div class="explorer"><div class="explorer-header"><span>📁</span><span>▶</span><span>▶</span><div class="explorer-path">Este equipo</div></div><div class="explorer-body"><div class="explorer-sidebar"><div class="side-item"><span class="s-icon">🏠</span>Inicio</div><div class="side-item active"><span class="s-icon">🖥️</span>Este equipo</div><div class="side-item" id="side-usb" onclick="nextStep()"><span class="s-icon">💾</span>Memoria USB (E:)</div><div class="side-item"><span class="s-icon">📁</span>Documentos</div><div class="side-item"><span class="s-icon">🖼️</span>Imágenes</div><div class="side-item"><span class="s-icon">🎵</span>Música</div><div class="side-item"><span class="s-icon">🎬</span>Videos</div></div><div class="explorer-main" id="expMain"><div style="color:var(--muted);font-size:13px;text-align:center;margin-top:40px;">Selecciona <strong>Memoria USB (E:)</strong> en la barra lateral<br>para ver sus archivos</div></div></div></div>`;
+  setTimeout(()=>applyHighlight('side-usb','hl-pulse-green'),100);
+}
+
+function renderFilesUSB(){
+  const s=document.getElementById('pcScreen');
+  document.getElementById('pcTitle').textContent='MEMORIA USB (E:)';
+  s.innerHTML=`<div class="explorer"><div class="explorer-header"><span>📁</span><span>▶</span><span>▶</span><div class="explorer-path">Este equipo > Memoria USB (E:)</div></div><div class="explorer-body"><div class="explorer-sidebar"><div class="side-item"><span class="s-icon">🏠</span>Inicio</div><div class="side-item"><span class="s-icon">🖥️</span>Este equipo</div><div class="side-item active"><span class="s-icon">💾</span>Memoria USB (E:)</div><div class="side-item" id="side-docs" onclick="showToast('Primero selecciona los archivos y cópialos')"><span class="s-icon">📁</span>Documentos</div><div class="side-item"><span class="s-icon">🖼️</span>Imágenes</div><div class="side-item"><span class="s-icon">🎵</span>Música</div></div><div class="explorer-main" id="expMain"><div class="file-item" id="f1" onclick="toggleFile('f1')"><span class="f-icon">📄</span><span class="f-name">Carta_abuelita.docx</span><span class="f-size">12 KB</span></div><div class="file-item" id="f2" onclick="toggleFile('f2')"><span class="f-icon">🖼️</span><span class="f-name">Foto_familia.jpg</span><span class="f-size">2.4 MB</span></div><div class="file-item" id="f3" onclick="toggleFile('f3')"><span class="f-icon">📊</span><span class="f-name">Presupuesto.xlsx</span><span class="f-size">8 KB</span></div><div class="file-item" id="f4" onclick="toggleFile('f4')"><span class="f-icon">🎵</span><span class="f-name">Cancion_favorita.mp3</span><span class="f-size">4.1 MB</span></div><div style="margin-top:16px;text-align:center;"><button id="btn-copy" onclick="copyFiles()" style="padding:10px 24px;background:linear-gradient(135deg,var(--amber),var(--orange));border:none;border-radius:10px;color:#fff;font-family:'Orbitron',monospace;font-size:11px;font-weight:700;letter-spacing:1px;cursor:pointer;opacity:.4;" disabled>📋 COPIAR A DOCUMENTOS</button></div></div></div></div>`;
+  selectedFiles=[];
+  setTimeout(()=>applyHighlight('f1','hl-pulse'),100);
+}
+
+function toggleFile(id){
+  const el=document.getElementById(id);
+  if(el.classList.contains('selected')){el.classList.remove('selected');selectedFiles=selectedFiles.filter(x=>x!==id);}
+  else{el.classList.add('selected');selectedFiles.push(id);}
+  const btn=document.getElementById('btn-copy');
+  if(selectedFiles.length>0){btn.disabled=false;btn.style.opacity='1';btn.classList.add('hl-pulse');}
+  else{btn.disabled=true;btn.style.opacity='.4';btn.classList.remove('hl-pulse');}
+}
+
+function copyFiles(){
+  if(selectedFiles.length===0)return;
+  const main=document.getElementById('expMain');
+  main.innerHTML=`<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:12px;"><div style="font-size:48px;animation:msgPop .5s ease;">✅</div><div style="color:var(--green);font-size:16px;font-weight:700;">¡Archivos copiados!</div><div style="color:var(--muted);font-size:13px;">${selectedFiles.length} archivo(s) guardado(s) en Documentos</div></div>`;
+  setTimeout(nextStep,1500);
+}
+
+function renderEjectUSB(){
+  const s=document.getElementById('pcScreen');
+  document.getElementById('pcTitle').textContent='EXPULSAR DISPOSITIVO';
+  s.innerHTML=`<div class="explorer"><div class="explorer-header"><span>📁</span><span>▶</span><span>▶</span><div class="explorer-path">Este equipo</div></div><div class="explorer-body"><div class="explorer-sidebar"><div class="side-item"><span class="s-icon">🏠</span>Inicio</div><div class="side-item active"><span class="s-icon">🖥️</span>Este equipo</div><div class="side-item" id="side-usb-ej" onclick="doEject()"><span class="s-icon">💾</span>Memoria USB (E:) <span style="margin-left:auto;font-size:10px;">⏏️</span></div><div class="side-item"><span class="s-icon">📁</span>Documentos</div><div class="side-item"><span class="s-icon">🖼️</span>Imágenes</div></div><div class="explorer-main" style="display:flex;align-items:center;justify-content:center;"><div style="text-align:center;color:var(--muted);font-size:13px;">Toca el <strong>icono de expulsar ⏏️</strong><br>junto al nombre del USB</div></div></div></div>`;
+  setTimeout(()=>applyHighlight('side-usb-ej','hl-pulse-red'),100);
+}
+
+function doEject(){
+  const s=document.getElementById('pcScreen');
+  const notif=document.createElement('div');
+  notif.className='eject-notif';
+  notif.innerHTML='✅ Hardware expulsado de forma segura<br><span style="font-size:11px;color:var(--muted);">Ya puedes retirar el USB</span>';
+  s.appendChild(notif);
+  setTimeout(nextStep,1800);
+}
+
+// ===================== RENDERERS HDD =====================
+function renderConnectHDD(){
+  const s=document.getElementById('pcScreen');
+  document.getElementById('pcTitle').textContent='CONECTAR DISPOSITIVO';
+  s.innerHTML=`<div class="phone-connect"><div class="device-illustration"><div class="device-body hdd" id="dev-hdd" onclick="nextStep()">🖴</div><div class="device-label">DISCO DURO</div></div><div class="cable-line"></div><div class="pc-illustration"><div class="pc-screen-inner">🖥️</div><div class="usb-port"></div></div><div class="pc-label">COMPUTADORA</div></div>`;
+  setTimeout(()=>applyHighlight('dev-hdd','hl-pulse'),100);
+}
+
+function renderDesktopHDD(){
+  const s=document.getElementById('pcScreen');
+  document.getElementById('pcTitle').textContent='ESCRITORIO WINDOWS';
+  s.innerHTML=`<div class="win-desktop"><div class="win-icon" onclick="showToast('Abre el Explorador de Archivos')">🗑️<span class="w-label">Papelera</span></div><div class="win-icon" onclick="showToast('Abre el Explorador de Archivos')">🌐<span class="w-label">Edge</span></div><div class="win-icon" onclick="showToast('Abre el Explorador de Archivos')">✉️<span class="w-label">Correo</span></div><div class="win-icon" id="exp-icon-hdd" onclick="nextStep()">📁<span class="w-label">Explorador</span></div><div class="win-icon" onclick="showToast('Abre el Explorador de Archivos')">🎵<span class="w-label">Música</span></div><div class="win-icon" onclick="showToast('Abre el Explorador de Archivos')">🎮<span class="w-label">Juegos</span></div></div><div class="win-taskbar"><div class="win-start">🪟</div><div class="win-task-icon" onclick="showToast('Abre el Explorador de Archivos')">🔍</div><div class="win-task-icon active" id="task-exp-hdd" onclick="nextStep()">📁</div><div class="win-task-icon" onclick="showToast('Abre el Explorador de Archivos')">🌐</div><div class="win-tray">📶 🔊 🔋 <span id="taskTime2">10:30</span></div></div>`;
+  updateTaskTime();
+  setTimeout(()=>applyHighlight('exp-icon-hdd','hl-pulse'),100);
+}
+
+function renderExplorerHDD(){
+  const s=document.getElementById('pcScreen');
+  document.getElementById('pcTitle').textContent='EXPLORADOR DE ARCHIVOS';
+  s.innerHTML=`<div class="explorer"><div class="explorer-header"><span>📁</span><span>▶</span><span>▶</span><div class="explorer-path">Este equipo</div></div><div class="explorer-body"><div class="explorer-sidebar"><div class="side-item"><span class="s-icon">🏠</span>Inicio</div><div class="side-item active"><span class="s-icon">🖥️</span>Este equipo</div><div class="side-item"><span class="s-icon">💾</span>Memoria USB (E:)</div><div class="side-item" id="side-hdd" onclick="nextStep()"><span class="s-icon">🖴</span>Disco Duro Ext. (F:)</div><div class="side-item"><span class="s-icon">📁</span>Documentos</div><div class="side-item"><span class="s-icon">🖼️</span>Imágenes</div></div><div class="explorer-main" id="expMainHDD"><div style="color:var(--muted);font-size:13px;text-align:center;margin-top:40px;">Selecciona <strong>Disco Duro Ext. (F:)</strong> en la barra lateral</div></div></div></div>`;
+  setTimeout(()=>applyHighlight('side-hdd','hl-pulse-green'),100);
+}
+
+function renderFilesHDD(){
+  const s=document.getElementById('pcScreen');
+  document.getElementById('pcTitle').textContent='DISCO DURO EXTERNO (F:)';
+  s.innerHTML=`<div class="explorer"><div class="explorer-header"><span>📁</span><span>▶</span><span>▶</span><div class="explorer-path">Este equipo > Disco Duro Ext. (F:)</div></div><div class="explorer-body"><div class="explorer-sidebar"><div class="side-item"><span class="s-icon">🏠</span>Inicio</div><div class="side-item"><span class="s-icon">🖥️</span>Este equipo</div><div class="side-item"><span class="s-icon">💾</span>Memoria USB (E:)</div><div class="side-item active"><span class="s-icon">🖴</span>Disco Duro Ext. (F:)</div><div class="side-item" id="side-docs-hdd" onclick="showToast('Primero selecciona los archivos')"><span class="s-icon">📁</span>Documentos</div><div class="side-item"><span class="s-icon">🖼️</span>Imágenes</div></div><div class="explorer-main" id="expMainHDD"><div class="file-item" id="h1" onclick="toggleFileHDD('h1')"><span class="f-icon">📁</span><span class="f-name">Backup_2024</span><span class="f-size">Carpeta</span></div><div class="file-item" id="h2" onclick="toggleFileHDD('h2')"><span class="f-icon">🎬</span><span class="f-name">Video_clase.mp4</span><span class="f-size">156 MB</span></div><div class="file-item" id="h3" onclick="toggleFileHDD('h3')"><span class="f-icon">📊</span><span class="f-name">Finanzas_anuales.xlsx</span><span class="f-size">24 KB</span></div><div class="file-item" id="h4" onclick="toggleFileHDD('h4')"><span class="f-icon">🖼️</span><span class="f-name">Vacaciones_playa.jpg</span><span class="f-size">3.2 MB</span></div><div class="file-item" id="h5" onclick="toggleFileHDD('h5')"><span class="f-icon">📄</span><span class="f-name">Tesis_final.pdf</span><span class="f-size">4.8 MB</span></div><div style="margin-top:16px;text-align:center;"><button id="btn-copy-hdd" onclick="copyFilesHDD()" style="padding:10px 24px;background:linear-gradient(135deg,var(--amber),var(--orange));border:none;border-radius:10px;color:#fff;font-family:'Orbitron',monospace;font-size:11px;font-weight:700;letter-spacing:1px;cursor:pointer;opacity:.4;" disabled>📋 COPIAR A DOCUMENTOS</button></div></div></div></div>`;
+  selectedFiles=[];
+  setTimeout(()=>applyHighlight('h1','hl-pulse'),100);
+}
+
+function toggleFileHDD(id){
+  const el=document.getElementById(id);
+  if(el.classList.contains('selected')){el.classList.remove('selected');selectedFiles=selectedFiles.filter(x=>x!==id);}
+  else{el.classList.add('selected');selectedFiles.push(id);}
+  const btn=document.getElementById('btn-copy-hdd');
+  if(selectedFiles.length>0){btn.disabled=false;btn.style.opacity='1';btn.classList.add('hl-pulse');}
+  else{btn.disabled=true;btn.style.opacity='.4';btn.classList.remove('hl-pulse');}
+}
+
+function copyFilesHDD(){
+  if(selectedFiles.length===0)return;
+  const main=document.getElementById('expMainHDD');
+  main.innerHTML=`<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:12px;"><div style="font-size:48px;animation:msgPop .5s ease;">✅</div><div style="color:var(--green);font-size:16px;font-weight:700;">¡Archivos copiados!</div><div style="color:var(--muted);font-size:13px;">${selectedFiles.length} archivo(s) guardado(s) en Documentos</div></div>`;
+  setTimeout(nextStep,1500);
+}
+
+function renderEjectHDD(){
+  const s=document.getElementById('pcScreen');
+  document.getElementById('pcTitle').textContent='EXPULSAR DISPOSITIVO';
+  s.innerHTML=`<div class="explorer"><div class="explorer-header"><span>📁</span><span>▶</span><span>▶</span><div class="explorer-path">Este equipo</div></div><div class="explorer-body"><div class="explorer-sidebar"><div class="side-item"><span class="s-icon">🏠</span>Inicio</div><div class="side-item active"><span class="s-icon">🖥️</span>Este equipo</div><div class="side-item"><span class="s-icon">💾</span>Memoria USB (E:)</div><div class="side-item" id="side-hdd-ej" onclick="doEjectHDD()"><span class="s-icon">🖴</span>Disco Duro Ext. (F:) <span style="margin-left:auto;font-size:10px;">⏏️</span></div><div class="side-item"><span class="s-icon">📁</span>Documentos</div></div><div class="explorer-main" style="display:flex;align-items:center;justify-content:center;"><div style="text-align:center;color:var(--muted);font-size:13px;">Toca el <strong>icono de expulsar ⏏️</strong><br>junto al nombre del disco duro</div></div></div></div>`;
+  setTimeout(()=>applyHighlight('side-hdd-ej','hl-pulse-red'),100);
+}
+
+function doEjectHDD(){
+  const s=document.getElementById('pcScreen');
+  const notif=document.createElement('div');
+  notif.className='eject-notif';
+  notif.innerHTML='✅ Hardware expulsado de forma segura<br><span style="font-size:11px;color:var(--muted);">Ya puedes desconectar el disco duro</span>';
+  s.appendChild(notif);
+  setTimeout(nextStep,1800);
+}
+
+// ===================== RENDERERS PHONE =====================
+function renderConnectPhone(){
+  const s=document.getElementById('pcScreen');
+  document.getElementById('pcTitle').textContent='CONECTAR DISPOSITIVO';
+  s.innerHTML=`<div class="phone-connect"><div class="device-illustration"><div class="device-body phone" id="dev-phone" onclick="nextStep()">📱</div><div class="device-label">CELULAR</div></div><div class="cable-line"></div><div class="pc-illustration"><div class="pc-screen-inner">🖥️</div><div class="usb-port"></div></div><div class="pc-label">COMPUTADORA</div></div>`;
+  setTimeout(()=>applyHighlight('dev-phone','hl-pulse'),100);
+}
+
+function renderPhoneTransfer(){
+  const s=document.getElementById('pcScreen');
+  document.getElementById('pcTitle').textContent='PANTALLA DEL CELULAR';
+  s.innerHTML=`<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0f172a,#1e293b);"><div class="phone-screen-sim"><div class="phone-notch-sim"></div><div class="phone-content-sim"><div style="font-size:36px;margin-top:10px;">🔌</div><div class="notif-title">USB conectado</div><div class="notif-body">Selecciona cómo quieres usar la conexión USB con esta computadora:</div><button class="phone-btn-sim transfer" id="btn-transfer" onclick="nextStep()">📁 Transferir archivos</button><button class="phone-btn-sim charge" onclick="showToast('Selecciona Transferir archivos, no solo cargar')">⚡ Solo cargar</button><button class="phone-btn-sim charge" onclick="showToast('Selecciona Transferir archivos')">📷 Transferir fotos (PTP)</button></div></div></div>`;
+  setTimeout(()=>applyHighlight('btn-transfer','hl-pulse-green'),100);
+}
+
+function renderDesktopPhone(){
+  const s=document.getElementById('pcScreen');
+  document.getElementById('pcTitle').textContent='ESCRITORIO WINDOWS';
+  s.innerHTML=`<div class="win-desktop"><div class="win-icon" onclick="showToast('Abre el Explorador de Archivos')">🗑️<span class="w-label">Papelera</span></div><div class="win-icon" onclick="showToast('Abre el Explorador de Archivos')">🌐<span class="w-label">Edge</span></div><div class="win-icon" onclick="showToast('Abre el Explorador de Archivos')">✉️<span class="w-label">Correo</span></div><div class="win-icon" id="exp-icon-phone" onclick="nextStep()">📁<span class="w-label">Explorador</span></div><div class="win-icon" onclick="showToast('Abre el Explorador de Archivos')">🎵<span class="w-label">Música</span></div><div class="win-icon" onclick="showToast('Abre el Explorador de Archivos')">🎮<span class="w-label">Juegos</span></div></div><div class="win-taskbar"><div class="win-start">🪟</div><div class="win-task-icon" onclick="showToast('Abre el Explorador de Archivos')">🔍</div><div class="win-task-icon active" id="task-exp-phone" onclick="nextStep()">📁</div><div class="win-task-icon" onclick="showToast('Abre el Explorador de Archivos')">🌐</div><div class="win-tray">📶 🔊 🔋 <span id="taskTime3">10:30</span></div></div>`;
+  updateTaskTime();
+  setTimeout(()=>applyHighlight('exp-icon-phone','hl-pulse'),100);
+}
+
+function renderExplorerPhone(){
+  const s=document.getElementById('pcScreen');
+  document.getElementById('pcTitle').textContent='EXPLORADOR DE ARCHIVOS';
+  s.innerHTML=`<div class="explorer"><div class="explorer-header"><span>📁</span><span>▶</span><span>▶</span><div class="explorer-path">Este equipo</div></div><div class="explorer-body"><div class="explorer-sidebar"><div class="side-item"><span class="s-icon">🏠</span>Inicio</div><div class="side-item active"><span class="s-icon">🖥️</span>Este equipo</div><div class="side-item"><span class="s-icon">💾</span>Memoria USB (E:)</div><div class="side-item"><span class="s-icon">🖴</span>Disco Duro Ext. (F:)</div><div class="side-item" id="side-phone" onclick="nextStep()"><span class="s-icon">📱</span>Mi Celular (G:)</div><div class="side-item"><span class="s-icon">📁</span>Documentos</div><div class="side-item"><span class="s-icon">🖼️</span>Imágenes</div></div><div class="explorer-main" id="expMainPhone"><div style="color:var(--muted);font-size:13px;text-align:center;margin-top:40px;">Selecciona <strong>Mi Celular (G:)</strong> en la barra lateral<br>para ver tus fotos y videos</div></div></div></div>`;
+  setTimeout(()=>applyHighlight('side-phone','hl-pulse-green'),100);
+}
+
+function renderFilesPhone(){
+  const s=document.getElementById('pcScreen');
+  document.getElementById('pcTitle').textContent='MI CELULAR (G:) > DCIM > CÁMERA';
+  s.innerHTML=`<div class="explorer"><div class="explorer-header"><span>📁</span><span>▶</span><span>▶</span><div class="explorer-path">Este equipo > Mi Celular (G:) > DCIM > Cámara</div></div><div class="explorer-body"><div class="explorer-sidebar"><div class="side-item"><span class="s-icon">🏠</span>Inicio</div><div class="side-item"><span class="s-icon">🖥️</span>Este equipo</div><div class="side-item"><span class="s-icon">💾</span>Memoria USB (E:)</div><div class="side-item"><span class="s-icon">🖴</span>Disco Duro Ext. (F:)</div><div class="side-item active"><span class="s-icon">📱</span>Mi Celular (G:)</div><div class="side-item" id="side-imgs" onclick="showToast('Primero selecciona las fotos')"><span class="s-icon">🖼️</span>Imágenes</div></div><div class="explorer-main" id="expMainPhone"><div class="file-item" id="p1" onclick="toggleFilePhone('p1')"><span class="f-icon">🖼️</span><span class="f-name">IMG_20241009_143022.jpg</span><span class="f-size">3.1 MB</span></div><div class="file-item" id="p2" onclick="toggleFilePhone('p2')"><span class="f-icon">🖼️</span><span class="f-name">IMG_20241009_143156.jpg</span><span class="f-size">2.8 MB</span></div><div class="file-item" id="p3" onclick="toggleFilePhone('p3')"><span class="f-icon">🎬</span><span class="f-name">VID_20241009_143400.mp4</span><span class="f-size">45 MB</span></div><div class="file-item" id="p4" onclick="toggleFilePhone('p4')"><span class="f-icon">🖼️</span><span class="f-name">IMG_20241009_143512.jpg</span><span class="f-size">3.5 MB</span></div><div style="margin-top:16px;text-align:center;"><button id="btn-copy-phone" onclick="copyFilesPhone()" style="padding:10px 24px;background:linear-gradient(135deg,var(--amber),var(--orange));border:none;border-radius:10px;color:#fff;font-family:'Orbitron',monospace;font-size:11px;font-weight:700;letter-spacing:1px;cursor:pointer;opacity:.4;" disabled>📋 COPIAR A IMÁGENES</button></div></div></div></div>`;
+  selectedFiles=[];
+  setTimeout(()=>applyHighlight('p1','hl-pulse'),100);
+}
+
+function toggleFilePhone(id){
+  const el=document.getElementById(id);
+  if(el.classList.contains('selected')){el.classList.remove('selected');selectedFiles=selectedFiles.filter(x=>x!==id);}
+  else{el.classList.add('selected');selectedFiles.push(id);}
+  const btn=document.getElementById('btn-copy-phone');
+  if(selectedFiles.length>0){btn.disabled=false;btn.style.opacity='1';btn.classList.add('hl-pulse');}
+  else{btn.disabled=true;btn.style.opacity='.4';btn.classList.remove('hl-pulse');}
+}
+
+function copyFilesPhone(){
+  if(selectedFiles.length===0)return;
+  const main=document.getElementById('expMainPhone');
+  main.innerHTML=`<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:12px;"><div style="font-size:48px;animation:msgPop .5s ease;">✅</div><div style="color:var(--green);font-size:16px;font-weight:700;">¡Fotos copiadas!</div><div style="color:var(--muted);font-size:13px;">${selectedFiles.length} archivo(s) guardado(s) en Imágenes</div></div>`;
+  setTimeout(nextStep,1500);
+}
+
+function renderEjectPhone(){
+  const s=document.getElementById('pcScreen');
+  document.getElementById('pcTitle').textContent='EXPULSAR DISPOSITIVO';
+  s.innerHTML=`<div class="explorer"><div class="explorer-header"><span>📁</span><span>▶</span><span>▶</span><div class="explorer-path">Este equipo</div></div><div class="explorer-body"><div class="explorer-sidebar"><div class="side-item"><span class="s-icon">🏠</span>Inicio</div><div class="side-item active"><span class="s-icon">🖥️</span>Este equipo</div><div class="side-item"><span class="s-icon">💾</span>Memoria USB (E:)</div><div class="side-item"><span class="s-icon">🖴</span>Disco Duro Ext. (F:)</div><div class="side-item" id="side-phone-ej" onclick="doEjectPhone()"><span class="s-icon">📱</span>Mi Celular (G:) <span style="margin-left:auto;font-size:10px;">⏏️</span></div><div class="side-item"><span class="s-icon">🖼️</span>Imágenes</div></div><div class="explorer-main" style="display:flex;align-items:center;justify-content:center;"><div style="text-align:center;color:var(--muted);font-size:13px;">Toca el <strong>icono de expulsar ⏏️</strong><br>junto al nombre del celular</div></div></div></div>`;
+  setTimeout(()=>applyHighlight('side-phone-ej','hl-pulse-red'),100);
+}
+
+function doEjectPhone(){
+  const s=document.getElementById('pcScreen');
+  const notif=document.createElement('div');
+  notif.className='eject-notif';
+  notif.innerHTML='✅ Dispositivo expulsado de forma segura<br><span style="font-size:11px;color:var(--muted);">Ya puedes desconectar el cable del celular</span>';
+  s.appendChild(notif);
+  setTimeout(nextStep,1800);
+}
+
+function updateTaskTime(){
+  const now=new Date();
+  const t=now.toLocaleTimeString('es',{hour:'2-digit',minute:'2-digit'});
+  ['taskTime','taskTime2','taskTime3'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=t;});
+}
+</script>
+</body>
+</html>
